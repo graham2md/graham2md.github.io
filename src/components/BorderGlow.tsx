@@ -25,9 +25,6 @@ function buildBoxShadow(glowColor: string, intensity: number): string {
   const { h, s, l } = parseHSL(glowColor);
   const base = `${h}deg ${s}% ${l}%`;
   const layers: [number, number, number, number, number, boolean][] = [
-    [0, 0, 0, 1, 100, true], [0, 0, 1, 0, 60, true], [0, 0, 3, 0, 50, true],
-    [0, 0, 6, 0, 40, true], [0, 0, 15, 0, 30, true], [0, 0, 25, 2, 20, true],
-    [0, 0, 50, 2, 10, true],
     [0, 0, 1, 0, 60, false], [0, 0, 3, 0, 50, false], [0, 0, 6, 0, 40, false],
     [0, 0, 15, 0, 30, false], [0, 0, 25, 2, 20, false], [0, 0, 50, 2, 10, false],
   ];
@@ -176,53 +173,62 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
       }}
     >
       {/* mesh gradient border */}
+      {/* mesh gradient border */}
       <div
-        className="absolute inset-0 rounded-[inherit] -z-[1]"
+        className="absolute inset-0 rounded-[inherit] -z-[1] overflow-hidden"
         style={{
-          border: '1px solid transparent',
-          background: [
-            `linear-gradient(${backgroundColor} 0 100%) padding-box`,
-            'linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box',
-            ...borderBg,
-          ].join(', '),
           opacity: borderOpacity,
           maskImage: `conic-gradient(from ${angleDeg} at center, black ${coneSpread}%, transparent ${coneSpread + 15}%, transparent ${100 - coneSpread - 15}%, black ${100 - coneSpread}%)`,
           WebkitMaskImage: `conic-gradient(from ${angleDeg} at center, black ${coneSpread}%, transparent ${coneSpread + 15}%, transparent ${100 - coneSpread - 15}%, black ${100 - coneSpread}%)`,
           transition: isVisible ? 'opacity 0.25s ease-out' : 'opacity 0.75s ease-in-out',
         }}
-      />
+      >
+        <div 
+          className="absolute inset-0 rounded-[inherit]"
+          style={{
+            border: '1px solid transparent',
+            background: borderBg.join(', '),
+            maskImage: 'linear-gradient(black, black) content-box, linear-gradient(black, black) border-box',
+            WebkitMaskImage: 'linear-gradient(black, black) content-box, linear-gradient(black, black) border-box',
+            maskComposite: 'exclude',
+            WebkitMaskComposite: 'destination-out',
+          }}
+        />
+      </div>
 
       {/* mesh gradient fill near edges */}
-      <div
-        className="absolute inset-0 rounded-[inherit] -z-[1]"
-        style={{
-          border: '1px solid transparent',
-          background: fillBg.join(', '),
-          maskImage: [
-            'linear-gradient(to bottom, black, black)',
-            'radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%)',
-            'radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%)',
-            'radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%)',
-            'radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%)',
-            'radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%)',
-            `conic-gradient(from ${angleDeg} at center, transparent 5%, black 15%, black 85%, transparent 95%)`,
-          ].join(', '),
-          WebkitMaskImage: [
-            'linear-gradient(to bottom, black, black)',
-            'radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%)',
-            'radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%)',
-            'radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%)',
-            'radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%)',
-            'radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%)',
-            `conic-gradient(from ${angleDeg} at center, transparent 5%, black 15%, black 85%, transparent 95%)`,
-          ].join(', '),
-          maskComposite: 'subtract, add, add, add, add, add',
-          WebkitMaskComposite: 'source-out, source-over, source-over, source-over, source-over, source-over',
-          opacity: borderOpacity * fillOpacity,
-          mixBlendMode: 'soft-light',
-          transition: isVisible ? 'opacity 0.25s ease-out' : 'opacity 0.75s ease-in-out',
-        } as React.CSSProperties}
-      />
+      {fillOpacity > 0 && (
+        <div
+          className="absolute inset-0 rounded-[inherit] -z-[1]"
+          style={{
+            border: '1px solid transparent',
+            background: fillBg.join(', '),
+            maskImage: [
+              'linear-gradient(to bottom, black, black)',
+              'radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%)',
+              'radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%)',
+              'radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%)',
+              'radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%)',
+              'radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%)',
+              `conic-gradient(from ${angleDeg} at center, transparent 5%, black 15%, black 85%, transparent 95%)`,
+            ].join(', '),
+            WebkitMaskImage: [
+              'linear-gradient(to bottom, black, black)',
+              'radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%)',
+              'radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%)',
+              'radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%)',
+              'radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%)',
+              'radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%)',
+              `conic-gradient(from ${angleDeg} at center, transparent 5%, black 15%, black 85%, transparent 95%)`,
+            ].join(', '),
+            maskComposite: 'subtract, add, add, add, add, add',
+            WebkitMaskComposite: 'source-out, source-over, source-over, source-over, source-over, source-over',
+            opacity: borderOpacity * fillOpacity,
+            mixBlendMode: 'soft-light',
+            transition: isVisible ? 'opacity 0.25s ease-out' : 'opacity 0.75s ease-in-out',
+          } as React.CSSProperties}
+        />
+      )}
 
       {/* outer glow */}
       <span
