@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import type { FC } from 'react';
 import * as THREE from 'three';
 
 const vertexShader = /* glsl */ `
