@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Markdown from 'react-markdown';
-import { ChevronLeft, Share2, ArrowLeft, Clock, Github } from 'lucide-react';
+import { ChevronLeft, Share2 } from 'lucide-react';
+import { motion } from 'motion/react';
 import { myProjects } from '../data/projects';
 import DotField from '../components/DotField';
 import TiltedCard from '../components/TiltedCard';
 import ShinyText from '../components/ShinyText';
-import Grainient from '../components/Grainient';
 
 const getAssetUrl = (path?: string) => {
   if (!path) return '';
@@ -85,6 +85,7 @@ export default function BlogPost() {
       
       // Look for up to 10 additional media files
       for (let i = 1; i <= 10; i++) {
+        let matched = false;
         for (const ext of exts) {
           try {
             const url = getAssetUrl(`assets/${id}_${i}${ext}`);
