@@ -1,9 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { X, ChevronDown, ChevronUp, ListFilter, Star } from 'lucide-react';
+import { X, ChevronDown, ChevronUp, ListFilter, Star, ChevronsUp } from 'lucide-react';
 import { myProjects } from '../data/projects';
 import type { Project } from '../data/projects';
-import Silk from '../components/Silk';
+import Grainient from '../components/Grainient';
 import SpotlightCard from '../components/SpotlightCard';
 
 
@@ -14,7 +14,7 @@ function ProjectTile({ project }: { project: Project }) {
     <Link to={project.url} className="no-underline text-inherit group outline-none">
         <SpotlightCard 
           spotlightColor="#b071dfff"
-          className="w-full h-full !p-0 border border-white/10 bg-black/20 backdrop-blur-2xl flex flex-col overflow-hidden rounded-3xl shadow-2xl"
+          className="w-full h-full !p-0 border border-white/10 bg-black/30 backdrop-blur-3xl flex flex-col overflow-hidden rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]"
         >
           <div 
             className="relative w-full aspect-video bg-black/50 overflow-hidden border-b border-white/5"
@@ -42,7 +42,7 @@ function ProjectTile({ project }: { project: Project }) {
           className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300 ${isHovered && project.videoPath ? 'opacity-0' : 'opacity-100'}`} 
         />
       </div>
-        <div className="p-5 flex flex-col grow bg-black/30 backdrop-blur-xl shrink-0 z-10 transition-colors group-hover:bg-black/20">
+        <div className="p-5 flex flex-col grow bg-black/30 backdrop-blur-3xl shrink-0 z-10 transition-colors group-hover:bg-black/40">
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-2xl font-medium text-white m-0 drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] tracking-wide">{project.title}</h3>
             {project.isFavorite && <Star className="w-5 h-5 fill-yellow-400 text-yellow-400 drop-shadow-[0_0_10px_rgba(255,215,0,0.8)]" />}
@@ -64,7 +64,31 @@ function ProjectTile({ project }: { project: Project }) {
 export default function Projects() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [isDateDescending, setIsDateDescending] = useState(true);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const sidebarRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 300);
+    
+    const handleClickOutside = (e: MouseEvent) => {
+      if (isSidebarOpen && sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
+        const target = e.target as HTMLElement;
+        if (!target.closest('#filter-btn')) {
+          setIsSidebarOpen(false);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSidebarOpen]);
 
   // Generate unique tags
   const allTags = useMemo(() => {
@@ -75,8 +99,13 @@ export default function Projects() {
   // Filter and sort projects
   const displayProjects = useMemo(() => {
     let filtered = myProjects;
+    
+    if (showFavoritesOnly) {
+      filtered = filtered.filter(p => p.isFavorite);
+    }
+
     if (activeFilters.length > 0) {
-      filtered = myProjects.filter(project => 
+      filtered = filtered.filter(project => 
         project.filters.some(f => activeFilters.includes(f))
       );
     }
@@ -85,7 +114,7 @@ export default function Projects() {
       const timeB = b.datePosted.getTime();
       return isDateDescending ? timeB - timeA : timeA - timeB;
     });
-  }, [activeFilters, isDateDescending]);
+  }, [activeFilters, showFavoritesOnly, isDateDescending]);
 
   const toggleFilter = (tag: string) => {
     setActiveFilters(prev => 
@@ -96,22 +125,56 @@ export default function Projects() {
   return (
     <div className="flex min-h-screen bg-transparent text-[#e0e0e0] relative overflow-hidden">
       
-      {/* Global Fixed Silk Background */}
-      <div className="fixed inset-0 z-0 bg-black pointer-events-none">
-        <Silk speed={10} scale={0.75} color="#B071DF" noiseIntensity={1.5} rotation={0} />
+      {/* Unified Single-Canvas Dynamic Grainient & Particles Background */}
+      <div className="fixed inset-0 z-0 bg-[#0a0516] pointer-events-none">
+        <Grainient 
+          timeSpeed={1} 
+          warpStrength={2.5}
+          rotationAmount={360}
+          noiseScale={1.8}
+          grainAmount={0.05}
+          zoom={1.0}
+          color1="#6c4589"
+          color2="#2a182f"
+          color3="#4f366c"
+          className="absolute inset-0 w-full h-full opacity-90"
+          showParticles={true}
+          particleCount={1000}
+          particleSpread={10}
+          particleSpeed={0.04}
+          particleBaseSize={50}
+          cameraDistance={30}
+          particleColors={["#B071DF", "#d8b4fe", "#ffffff"]}
+        />
       </div>
 
       {/* Sidebar */}
-      <aside className={`fixed top-0 right-0 w-[300px] h-screen bg-black/40 backdrop-blur-3xl border-l border-white/10 p-6 shadow-[-4px_0_25px_rgba(0,0,0,0.8)] transition-transform duration-300 z-50 ${isSidebarOpen ? 'translate-x-0' : 'translate-x-[320px]'}`}>
+      <aside ref={sidebarRef} className={`fixed top-0 right-0 w-[300px] h-screen bg-black/30 backdrop-blur-3xl border-l border-white/10 p-6 shadow-[-8px_0_32px_rgba(0,0,0,0.8)] transition-transform duration-300 z-50 ${isSidebarOpen ? 'translate-x-0' : 'translate-x-[320px]'}`}>
         <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
           <h3 className="text-lg font-medium m-0">Filters</h3>
           <div className="flex items-center gap-2">
-            <button onClick={() => setActiveFilters([])} className="bg-none border-none text-[#a0a0a0] px-3 py-1.5 pt-2 rounded-md font-medium text-sm hover:text-white hover:bg-white/10 cursor-pointer transition-colors">Clear All</button>
+            <button onClick={() => { setActiveFilters([]); setShowFavoritesOnly(false); }} className="bg-none border-none text-[#a0a0a0] px-3 py-1.5 pt-2 rounded-md font-medium text-sm hover:text-white hover:bg-white/10 cursor-pointer transition-colors">Clear All</button>
             <button onClick={() => setIsSidebarOpen(false)} className="bg-none border-none text-[#a0a0a0] p-2 rounded-full flex items-center justify-center hover:bg-white/10 hover:text-white cursor-pointer transition-colors">
               <X size={20} />
             </button>
           </div>
         </div>
+        
+        <div className="mb-8 border-b border-white/5 pb-6">
+          <label className="flex items-center justify-between bg-white/5 border border-white/10 px-4 py-3 rounded-xl cursor-pointer hover:bg-white/10 transition-colors select-none shadow-sm">
+            <div className="flex items-center gap-2.5 font-medium text-yellow-400">
+              <Star size={18} className="fill-yellow-400 drop-shadow-[0_0_8px_rgba(255,215,0,0.5)]" /> 
+              Favorites Only
+            </div>
+            <input 
+              type="checkbox" 
+              checked={showFavoritesOnly}
+              onChange={() => setShowFavoritesOnly(!showFavoritesOnly)}
+              className="accent-purple-500 w-4 h-4 cursor-pointer m-0"
+            />
+          </label>
+        </div>
+
         <div className="mb-6">
           <h4 className="text-[#a0a0a0] mb-3 text-xs uppercase tracking-wider font-semibold m-0">All Tags</h4>
           <div className="flex flex-wrap gap-2.5">
@@ -133,7 +196,7 @@ export default function Projects() {
 
       {/* Main Content */}
       <main className="flex-grow p-8 w-full max-w-7xl mx-auto relative z-10">
-        <header className="relative flex flex-wrap gap-4 justify-between items-center bg-black/40 backdrop-blur-2xl p-4 sm:px-6 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] border border-white/10 z-20">
+        <header className="relative flex flex-wrap gap-4 justify-between items-center bg-black/30 backdrop-blur-3xl p-4 sm:px-6 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] border border-white/10 z-20">
           <div className="flex items-center">
             <button onClick={() => setIsDateDescending(!isDateDescending)} className="bg-white/5 text-[#e0e0e0] border border-white/10 px-4 py-2 rounded-lg font-medium text-[0.95rem] flex items-center gap-2 backdrop-blur-md hover:bg-white/10 hover:border-white/20 hover:-translate-y-0.5 hover:shadow-[0_4px_15px_rgba(0,0,0,0.2)] active:translate-y-0 cursor-pointer transition-all">
               Date {isDateDescending ? <ChevronDown size={18} /> : <ChevronUp size={18} />}
@@ -151,7 +214,7 @@ export default function Projects() {
             />
           </Link>
 
-          <button onClick={() => setIsSidebarOpen(true)} className="bg-white/5 text-[#e0e0e0] border border-white/10 px-4 py-2 rounded-lg font-medium text-[0.95rem] flex items-center gap-2 backdrop-blur-md hover:bg-white/10 hover:border-white/20 hover:-translate-y-0.5 hover:shadow-[0_4px_15px_rgba(0,0,0,0.2)] active:translate-y-0 cursor-pointer transition-all">
+          <button id="filter-btn" onClick={() => setIsSidebarOpen(true)} className="bg-white/5 text-[#e0e0e0] border border-white/10 px-4 py-2 rounded-lg font-medium text-[0.95rem] flex items-center gap-2 backdrop-blur-md hover:bg-white/10 hover:border-white/20 hover:-translate-y-0.5 hover:shadow-[0_4px_15px_rgba(0,0,0,0.2)] active:translate-y-0 cursor-pointer transition-all">
             <ListFilter size={18} /> Filter
           </button>
         </header>
@@ -162,6 +225,14 @@ export default function Projects() {
           ))}
         </div>
       </main>
+
+      {/* Scroll to Top Button */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className={`fixed bottom-8 right-8 z-40 bg-black/30 backdrop-blur-3xl border border-white/10 p-3.5 rounded-full text-white shadow-[0_4px_24px_rgba(0,0,0,0.8)] hover:bg-white/10 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(176,113,223,0.4)] active:translate-y-0 active:scale-95 transition-all duration-500 ${showScrollTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-8 pointer-events-none'}`}
+      >
+        <ChevronsUp size={24} className="drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
+      </button>
     </div>
   );
 }

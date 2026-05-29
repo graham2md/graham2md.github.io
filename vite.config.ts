@@ -13,6 +13,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  assetsInclude: ['**/*.av1'],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

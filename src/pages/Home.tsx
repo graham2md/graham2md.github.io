@@ -57,7 +57,7 @@ export default function Home() {
              baseItemSize={75} 
              magnification={120} 
              dockHeight={150} 
-             className="backdrop-blur-md shadow-2xl"
+             className="bg-black/30 backdrop-blur-3xl border border-white/10 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]"
            />
         </div>
       </div>
@@ -116,7 +116,7 @@ export default function Home() {
 
       {/* Main Content with Frost Glass Backdrop */}
       <main 
-        className="relative z-30 -mt-[15vh] pt-[45vh] px-5 pb-[15vh] flex justify-center w-full bg-black/40 backdrop-blur-xl"
+        className="relative z-30 -mt-[15vh] pt-[45vh] px-5 pb-[15vh] flex justify-center w-full bg-black/30 backdrop-blur-3xl"
         style={{
           maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 10vh, rgba(0,0,0,0.3) 20vh, black 30vh)',
           WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 10vh, rgba(0,0,0,0.3) 20vh, black 30vh)'
@@ -137,7 +137,7 @@ export default function Home() {
 
       {/* LinkedIn Privacy Modal */}
       <AlertDialog open={showLinkedInAlert} onOpenChange={setShowLinkedInAlert}>
-        <AlertDialogContent className="bg-black/30 backdrop-blur-2xl border-white/10 text-white rounded-3xl p-8 sm:max-w-xl shadow-[0_0_80px_rgba(0,0,0,1)]">
+        <AlertDialogContent className="bg-black/30 backdrop-blur-3xl border border-white/10 text-white rounded-3xl p-8 sm:max-w-xl shadow-[0_8px_32px_rgba(0,0,0,0.8)]">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-3xl font-bold tracking-wide text-neutral-100 flex items-center gap-4">
               <span className="bg-white/5 w-11 h-11 flex items-center justify-center rounded-xl border border-white/10 shrink-0">
