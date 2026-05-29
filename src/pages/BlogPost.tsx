@@ -1,12 +1,18 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Markdown from 'react-markdown';
-import { ChevronLeft, Share2 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { ChevronLeft, Share2, ArrowLeft, Clock, Github } from 'lucide-react';
 import { myProjects } from '../data/projects';
 import DotField from '../components/DotField';
 import TiltedCard from '../components/TiltedCard';
 import ShinyText from '../components/ShinyText';
+import Grainient from '../components/Grainient';
+
+const getAssetUrl = (path?: string) => {
+  if (!path) return '';
+  const base = import.meta.env.BASE_URL || '/';
+  return `${base}${path.replace(/^\//, '')}`;
+};
 
 export default function BlogPost() {
   const { id } = useParams<{ id: string }>();
@@ -79,10 +85,9 @@ export default function BlogPost() {
       
       // Look for up to 10 additional media files
       for (let i = 1; i <= 10; i++) {
-        let matched = false;
         for (const ext of exts) {
           try {
-            const url = `/assets/${id}_${i}${ext}`;
+            const url = getAssetUrl(`assets/${id}_${i}${ext}`);
             const res = await fetch(url, { method: 'HEAD' });
             const contentType = res.headers.get('content-type') || '';
             
@@ -112,11 +117,10 @@ export default function BlogPost() {
     if (!project || !id) return [];
 
     const mediaList = [];
-    
     // 1. Base Image
     mediaList.push({
       id: 'media-base-img',
-      src: `/${project.imagePath}`,
+      src: getAssetUrl(project.imagePath),
       title: project.title,
     });
 
@@ -124,7 +128,7 @@ export default function BlogPost() {
     if (project.videoPath) {
       mediaList.push({
         id: 'media-base-vid',
-        src: `/${project.videoPath}`,
+        src: getAssetUrl(project.videoPath),
         title: 'Ambient Loop',
       });
     }

@@ -6,6 +6,11 @@ import type { Project } from '../data/projects';
 import Grainient from '../components/Grainient';
 import SpotlightCard from '../components/SpotlightCard';
 
+const getAssetUrl = (path?: string) => {
+  if (!path) return '';
+  const base = import.meta.env.BASE_URL || '/';
+  return `${base}${path.replace(/^\//, '')}`;
+};
 
 function ProjectTile({ project }: { project: Project }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -23,7 +28,7 @@ function ProjectTile({ project }: { project: Project }) {
           >
         {project.videoPath && (
           <video 
-            src={project.videoPath} 
+            src={getAssetUrl(project.videoPath)} 
             loop 
             muted 
             playsInline 
@@ -37,7 +42,7 @@ function ProjectTile({ project }: { project: Project }) {
           />
         )}
         <img 
-          src={project.imagePath} 
+          src={getAssetUrl(project.imagePath)} 
           alt={project.title} 
           className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300 ${isHovered && project.videoPath ? 'opacity-0' : 'opacity-100'}`} 
         />
