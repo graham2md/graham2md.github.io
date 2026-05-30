@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
+import { ChevronDown } from 'lucide-react';
 import Silk from '../components/Silk';
 import ScrollReveal from '../components/ScrollReveal';
 import BlurText from '../components/BlurText';
@@ -15,6 +16,16 @@ export default function Home() {
   const [showLinkedInAlert, setShowLinkedInAlert] = useState(false);
   const { scrollYProgress } = useScroll();
   const fadeOpacity = useTransform(scrollYProgress, [0.8, 1], [0, 1]); // Fade in dynamically only at the very bottom of the page
+
+  const shuffledTexts = useMemo(() => {
+    const arr = [
+      'AI Developer', 'Hardware Enthusiast', 'Computer Vision Engineer', 
+      'Product Designer', 'AI Consultant', 'Game Developer', 
+      'Robotics Engineer', 'Vector Graphics Artist', 
+      'Cybersecurity Consultant', 'Natural Language Processing Engineer'
+    ];
+    return arr.sort(() => Math.random() - 0.5);
+  }, []);
 
   const navItems: DockItemData[] = [
     {
@@ -77,13 +88,13 @@ export default function Home() {
         <div className="text-center w-full flex flex-col items-center justify-center">
           <div className="text-6xl sm:text-[7rem] sm:leading-tight mb-2 font-medium flex flex-wrap items-center justify-center gap-x-4 gap-y-4">
             <BlurText 
-              text="Hi, I'm"
+              text=""
               delay={50}
               initialDelay={800}
               animateBy="words"
               direction="bottom" 
             />
-            <GradientText colors={['#D662AB', '#B071DF', '#917DF1']} animationSpeed={6} className="!mb-0 !pb-0 text-6xl sm:text-[7rem]">
+            <GradientText colors={['#FFFB78', '#CCF470', '#FFE373']} animationSpeed={6} className="!mb-0 !pb-0 text-6xl sm:text-[7rem]">
               <BlurText 
                 text="Mitchell Graham"
                 delay={50}
@@ -101,7 +112,7 @@ export default function Home() {
              transition={{ duration: 0.8, delay: 1.8 }}
           >
              <RotatingText 
-              texts={['Full-Stack Developer', 'Hardware Enthusiast', 'Problem Solver', 'UI Designer']}
+              texts={shuffledTexts}
               rotationInterval={3000}
               staggerDuration={0.03}
               initial={{ y: '100%', opacity: 0 }}
@@ -112,6 +123,23 @@ export default function Home() {
             />
           </motion.div>
         </div>
+
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-[185px] flex flex-col items-center justify-center gap-2 opacity-60 cursor-pointer pointer-events-auto hover:opacity-100 transition-opacity"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.6 }}
+          transition={{ duration: 1, delay: 2.5 }}
+          onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
+        >
+          <span className="text-sm font-medium tracking-[0.2em] text-white/70 uppercase">Read Bio</span>
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown className="w-6 h-6 text-[#B071DF]" />
+          </motion.div>
+        </motion.div>
       </header>
 
       {/* Main Content with Frost Glass Backdrop */}
@@ -122,15 +150,25 @@ export default function Home() {
           WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 10vh, rgba(0,0,0,0.3) 20vh, black 30vh)'
         }}
       >
-        <div className="w-full px-4 sm:px-12 md:px-24 text-center">
-          <div className="w-full max-w-4xl mx-auto mb-20 text-[#aaa]">
-            <ScrollReveal
-              baseOpacity={0.1}
-              baseRotation={1}
-              blurStrength={2}
-            >
-              (EXAMPLE) I specialize in building robust TypeScript applications and custom hardware solutions. I bridge the gap between physical components and digital interfaces, delivering high-performance tools that solve real-world problems. You should hire me because I don't just write code—I build systems that last.
-            </ScrollReveal>
+        <div className="w-full px-4 sm:px-12 md:px-24">
+          <div className="w-full max-w-4xl mx-auto mb-20">
+            <div className="bg-black/30 backdrop-blur-3xl border border-white/10 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] p-8 sm:p-12 md:p-16 relative overflow-hidden text-left">
+              {/* Ambient Glow Orbs */}
+              <div className="absolute top-[-50px] right-[-50px] w-[200px] h-[200px] bg-[#B071DF]/10 rounded-full blur-[80px] pointer-events-none" />
+              <div className="absolute bottom-[-50px] left-[-50px] w-[200px] h-[200px] bg-purple-500/5 rounded-full blur-[80px] pointer-events-none" />
+
+              <div className="relative z-10 text-neutral-300 font-light">
+                <ScrollReveal
+                  baseOpacity={0.1}
+                  baseRotation={1}
+                  blurStrength={2}
+                  containerClassName="!my-0"
+                  textClassName="text-[1.1rem] sm:text-[1.2rem] leading-relaxed m-0 text-center sm:text-left drop-shadow-md"
+                >
+                  I am a recent Drake University graduate with a dual degree in Artificial Intelligence and Computer Science, with a minor in Japanese. My technical expertise spans across Python, Rust, and TypeScript, combined with a deep passion for Computer Vision, Natural Language Processing, and 3D modeling. I thrive at the intersection of logical problem solving and creative design—whether I'm prototyping product experiences in Blender or designing machine learning models using TensorFlow. Ultimately, my goal is to innovate on human-computer interaction to make advanced computing and robotics as accessible and intuitive as possible.
+                </ScrollReveal>
+              </div>
+            </div>
           </div>
         </div>
       </main>
