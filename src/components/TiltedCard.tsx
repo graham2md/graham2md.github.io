@@ -19,6 +19,7 @@ interface TiltedCardProps {
   displayOverlayContent?: boolean;
   isDragging?: boolean;
   useBorderGlow?: boolean;
+  borderRadius?: number | string;
 }
 
 const springValues: SpringOptions = {
@@ -42,7 +43,8 @@ export default function TiltedCard({
   overlayContent = null,
   displayOverlayContent = false,
   isDragging = false,
-  useBorderGlow = true
+  useBorderGlow = true,
+  borderRadius = 15
 }: TiltedCardProps) {
   const ref = useRef<HTMLElement>(null);
   const x = useMotionValue(0);
@@ -135,7 +137,7 @@ export default function TiltedCard({
       >
         {useBorderGlow ? (
           <BorderGlow
-            borderRadius={15}
+            borderRadius={typeof borderRadius === 'number' ? borderRadius : parseInt(borderRadius as string, 10) || 15}
             glowColor="270 80 80"
             glowRadius={40}
             glowIntensity={2.0}
@@ -154,19 +156,21 @@ export default function TiltedCard({
                 muted
                 playsInline
                 draggable="false"
-                className="w-full h-full object-cover rounded-[15px]"
+                className="w-full h-full object-cover"
+                style={{ borderRadius }}
               />
             ) : (
               <motion.img
                 src={imageSrc}
                 alt={altText}
                 draggable="false"
-                className="w-full h-full object-cover rounded-[15px]"
+                className="w-full h-full object-cover"
+                style={{ borderRadius }}
               />
             )}
 
             {/* Transparent overlay for drag-anywhere capturing and ghost-drag prevention */}
-            <div className="absolute inset-0 z-10 rounded-[15px] cursor-grab active:cursor-grabbing" />
+            <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing" style={{ borderRadius }} />
           </BorderGlow>
         ) : (
           <>
@@ -178,10 +182,11 @@ export default function TiltedCard({
                 muted
                 playsInline
                 draggable="false"
-                className="absolute top-0 left-0 object-cover rounded-[15px]"
+                className="absolute top-0 left-0 object-cover"
                 style={{
                   width: imageWidth,
-                  height: imageHeight
+                  height: imageHeight,
+                  borderRadius
                 }}
               />
             ) : (
@@ -189,16 +194,17 @@ export default function TiltedCard({
                 src={imageSrc}
                 alt={altText}
                 draggable="false"
-                className="absolute top-0 left-0 object-cover rounded-[15px]"
+                className="absolute top-0 left-0 object-cover"
                 style={{
                   width: imageWidth,
-                  height: imageHeight
+                  height: imageHeight,
+                  borderRadius
                 }}
               />
             )}
 
             {/* Transparent overlay for drag-anywhere capturing and ghost-drag prevention */}
-            <div className="absolute inset-0 z-10 rounded-[15px] cursor-grab active:cursor-grabbing" />
+            <div className="absolute inset-0 z-10 cursor-grab active:cursor-grabbing" style={{ borderRadius }} />
           </>
         )}
 

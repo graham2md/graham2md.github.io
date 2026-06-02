@@ -7,6 +7,7 @@ import ScrollReveal from '../components/ScrollReveal';
 import BlurText from '../components/BlurText';
 import GradientText from '../components/GradientText';
 import RotatingText from '../components/RotatingText';
+import TiltedCard from '../components/TiltedCard';
 import Dock from '../components/Dock';
 import type { DockItemData } from '../components/Dock';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../components/ui/alert-dialog';
@@ -84,25 +85,41 @@ export default function Home() {
       </div>
 
       {/* Top Header Section overlapping Silk directly */}
-      <header className="relative w-full min-h-screen flex flex-col items-center justify-center z-10 px-4 drop-shadow-[0_0_50px_rgba(0,0,0,1)] drop-shadow-[0_10px_20px_rgba(0,0,0,1)] drop-shadow-[0_0_10px_rgba(0,0,0,1)]">
+      <header className="relative w-full min-h-[90vh] flex flex-col items-center justify-center z-10 px-4 pt-12">
         <div className="text-center w-full flex flex-col items-center justify-center">
-          <div className="text-6xl sm:text-[7rem] sm:leading-tight mb-2 font-medium flex flex-wrap items-center justify-center gap-x-4 gap-y-4">
-            <BlurText 
-              text=""
-              delay={50}
-              initialDelay={800}
-              animateBy="words"
-              direction="bottom" 
+          {/* Profile Photo Media Card (Blog Post Style) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2, type: 'spring', damping: 20 }}
+            className="mb-10 -mt-10 relative z-20 flex justify-center drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)]"
+          >
+            <TiltedCard 
+              imageSrc="/assets/headshot.avif" 
+              altText="Mitchell Graham" 
+              captionText="AI Consultant" 
+              containerHeight="280px" 
+              containerWidth="280px" 
+              imageHeight="280px" 
+              imageWidth="280px" 
+              rotateAmplitude={15} 
+              scaleOnHover={1.05} 
+              showMobileWarning={false} 
+              showTooltip={false} 
+              displayOverlayContent={true} 
+              borderRadius={36}
             />
-            <GradientText colors={['#FFFB78', '#CCF470', '#FFE373']} animationSpeed={6} className="!mb-0 !pb-0 text-6xl sm:text-[7rem]">
-              <BlurText 
-                text="Mitchell Graham"
-                delay={50}
-                initialDelay={1200}
-                animateBy="words"
-                direction="bottom" 
-              />
-            </GradientText>
+          </motion.div>
+
+          <div className="text-6xl sm:text-[7rem] sm:leading-tight mb-2 font-medium flex flex-wrap items-center justify-center gap-x-4 gap-y-4">
+            <motion.h1 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="!mb-0 !pb-0 text-6xl sm:text-[7rem] text-white font-bold drop-shadow-[0_0_20px_rgba(176,113,223,0.6)] drop-shadow-[0_5px_10px_rgba(0,0,0,0.8)]"
+            >
+              Mitchell Graham
+            </motion.h1>
           </div>
           
           <motion.div 
@@ -126,9 +143,10 @@ export default function Home() {
 
         {/* Scroll Indicator */}
         <motion.div 
-          className="absolute bottom-[185px] flex flex-col items-center justify-center gap-2 opacity-60 cursor-pointer pointer-events-auto hover:opacity-100 transition-opacity"
+          className="mt-6 mb-12 flex flex-col items-center justify-center gap-2 cursor-pointer pointer-events-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.6 }}
+          whileHover={{ opacity: 1 }}
           transition={{ duration: 1, delay: 2.5 }}
           onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
         >
