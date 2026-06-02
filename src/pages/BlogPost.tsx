@@ -82,7 +82,10 @@ export default function BlogPost() {
     if (project.videoPath) {
       fetch(getAssetUrl(project.videoPath), { method: 'HEAD' })
         .then(res => {
-          if (res.ok && isMounted) setBaseVideoExists(true);
+          const contentType = res.headers.get('content-type') || '';
+          if (res.ok && !contentType.includes('text/html') && isMounted) {
+            setBaseVideoExists(true);
+          }
         })
         .catch(() => {});
     }
@@ -99,7 +102,8 @@ export default function BlogPost() {
           try {
             const src = `${base}${i}${ext}`;
             const res = await fetch(src, { method: 'HEAD' });
-            if (res.ok) {
+            const contentType = res.headers.get('content-type') || '';
+            if (res.ok && !contentType.includes('text/html')) {
               found.push({ src, title: `Exhibit ${i}` });
               matched = true;
               break;
