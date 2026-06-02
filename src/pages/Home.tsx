@@ -4,8 +4,6 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 import Silk from '../components/Silk';
 import ScrollReveal from '../components/ScrollReveal';
-import BlurText from '../components/BlurText';
-import GradientText from '../components/GradientText';
 import RotatingText from '../components/RotatingText';
 import TiltedCard from '../components/TiltedCard';
 import Dock from '../components/Dock';
