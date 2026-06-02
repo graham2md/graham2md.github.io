@@ -14,6 +14,7 @@ const getAssetUrl = (path?: string) => {
 
 function ProjectTile({ project }: { project: Project }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [videoError, setVideoError] = useState(false);
 
   return (
     <Link to={project.url} className="no-underline text-inherit group outline-none">
@@ -26,7 +27,7 @@ function ProjectTile({ project }: { project: Project }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-        {project.videoPath && (
+        {project.videoPath && !videoError && (
           <video 
             src={getAssetUrl(project.videoPath)} 
             loop 
@@ -39,12 +40,13 @@ function ProjectTile({ project }: { project: Project }) {
                 else { el.pause(); el.currentTime = 0; }
               }
             }}
+            onError={() => setVideoError(true)}
           />
         )}
         <img 
           src={getAssetUrl(project.imagePath)} 
           alt={project.title} 
-          className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300 ${isHovered && project.videoPath ? 'opacity-0' : 'opacity-100'}`} 
+          className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300 ${isHovered && project.videoPath && !videoError ? 'opacity-0' : 'opacity-100'}`} 
         />
       </div>
         <div className="p-5 flex flex-col grow bg-black/30 backdrop-blur-3xl shrink-0 z-10 transition-colors group-hover:bg-black/40">

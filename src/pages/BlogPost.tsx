@@ -20,6 +20,8 @@ export default function BlogPost() {
   const [copied, setCopied] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [additionalMedia, setAdditionalMedia] = useState<{src: string, title: string}[]>([]);
+  const [baseVideoExists, setBaseVideoExists] = useState(false);
 
   // Match the project metadata
   const project = myProjects.find(p => p.id === id) || 
@@ -72,29 +74,33 @@ export default function BlogPost() {
     return Math.max(1, Math.ceil(wordCount / 225));
   }, [content]);
 
-  const [additionalMedia, setAdditionalMedia] = useState<{src: string, title: string}[]>([]);
-
   // Probe for additional media files (_1, _2, etc.)
   useEffect(() => {
-    if (!id) return;
     let isMounted = true;
+    if (!project || !id) return;
+
+    if (project.videoPath) {
+      fetch(getAssetUrl(project.videoPath), { method: 'HEAD' })
+        .then(res => {
+          if (res.ok && isMounted) setBaseVideoExists(true);
+        })
+        .catch(() => {});
+    }
 
     const probeMedia = async () => {
+      const base = getAssetUrl(`assets/${id}_`);
+      const exts = ['.avif', '.png', '.jpg'];
       const found = [];
-      const exts = ['.avif', '.av1', '.mp4', '.png', '.jpg', '.webm'];
       
-      // Look for up to 10 additional media files
-      for (let i = 1; i <= 10; i++) {
+      // Look for up to 5 additional media files
+      for (let i = 1; i <= 5; i++) {
         let matched = false;
         for (const ext of exts) {
           try {
-            const url = getAssetUrl(`assets/${id}_${i}${ext}`);
-            const res = await fetch(url, { method: 'HEAD' });
-            const contentType = res.headers.get('content-type') || '';
-            
-            // Reject Vite's SPA fallback (index.html)
-            if (res.ok && !contentType.includes('text/html')) {
-              found.push({ src: url, title: `Extra Media ${i}` });
+            const src = `${base}${i}${ext}`;
+            const res = await fetch(src, { method: 'HEAD' });
+            if (res.ok) {
+              found.push({ src, title: `Exhibit ${i}` });
               matched = true;
               break;
             }
@@ -102,7 +108,7 @@ export default function BlogPost() {
             // ignore
           }
         }
-        if (!matched) break; // stop at first missing index
+        if (!matched) break;
       }
 
       if (isMounted) setAdditionalMedia(found);
@@ -111,7 +117,7 @@ export default function BlogPost() {
     probeMedia();
 
     return () => { isMounted = false; };
-  }, [id]);
+  }, [id, project]);
 
   // Interactive Editorial Media Configuration
   const projectMedia = useMemo(() => {
@@ -126,7 +132,7 @@ export default function BlogPost() {
     });
 
     // 2. Base Video
-    if (project.videoPath) {
+    if (project.videoPath && baseVideoExists) {
       mediaList.push({
         id: 'media-base-vid',
         src: getAssetUrl(project.videoPath),
@@ -155,7 +161,7 @@ export default function BlogPost() {
         }
       };
     });
-  }, [id, project, additionalMedia]);
+  }, [id, project, additionalMedia, baseVideoExists]);
 
   return (
     <div className="bg-black text-white min-h-screen relative overflow-x-hidden">
