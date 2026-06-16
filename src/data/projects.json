@@ -1,5 +1,19 @@
 [
     {
+        "id": "signcontrol",
+        "title": "SignControl",
+        "description": "Controlling robots using hand gestures",
+        "imagePath": "assets/signcontrol.avif",
+        "videoPath": "assets/signcontrol.av1",
+        "url": "https://github.com/SignControl/SignControl",
+        "hasGithubRepo": true,
+        "isFavorite": true,
+        "datePosted": "2026-06-15T00:00:00.000Z",
+        "filters": [
+            "AI"
+        ]
+    },
+    {
         "id": "wikirag",
         "title": "WikiRAG",
         "description": "A chatbot that generates information about retrieved Wikipedia articles using RAG (Retrieval Augmented Generation)",
