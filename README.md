@@ -1,2 +1,2 @@
-# [Mitchell Graham Portfolio](https://lambent7.github.io)
+# [Mitchell Graham Portfolio](https://graham2md.github.io)
 My personal portfolio website
