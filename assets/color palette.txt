@@ -1,6 +1,0 @@
-#b071df - Purple
-#d662ab - Pink
-#917df1 - Blue
-#FFFB78
-#CCF470
-#FFE373
