@@ -1,122 +1,123 @@
 [
-    {
-        "id": "signcontrol",
-        "title": "SignControl",
-        "description": "Controlling robots using hand gestures",
-        "imagePath": "assets/signcontrol.avif",
-        "videoPath": "assets/signcontrol.av1",
-        "url": "https://github.com/SignControl/SignControl",
-        "hasGithubRepo": true,
-        "isFavorite": true,
-        "datePosted": "2026-06-15T00:00:00.000Z",
-        "filters": [
-            "AI"
-        ]
-    },
-    {
-        "id": "wikirag",
-        "title": "WikiRAG",
-        "description": "A chatbot that generates information about retrieved Wikipedia articles using RAG (Retrieval Augmented Generation)",
-        "imagePath": "assets/wikirag.avif",
-        "url": "https://github.com/Lambent7/WikiRAG",
-        "hasGithubRepo": true,
-        "isFavorite": true,
-        "datePosted": "2026-06-02T00:00:00.000Z",
-        "filters": [
-            "NLP",
-            "AI"
-        ]
-    },
-    {
-        "id": "portfolio_icons",
-        "title": "Portfolio Icons",
-        "description": "Custom made SVG icons for use on this portfolio website created with Inkscape.",
-        "imagePath": "assets/portfolio_icons.avif",
-        "videoPath": "assets/portfolio_icons.av1",
-        "url": "/blog/portfolio_icons",
-        "hasGithubRepo": false,
-        "isFavorite": true,
-        "datePosted": "2026-05-29T00:00:00.000Z",
-        "filters": [
-            "UI/UX",
-            "SVG"
-        ]
-    },
-    {
-        "id": "chunkymonkey",
-        "title": "ChunkyMonkey",
-        "description": "A retrieval augmented generation model using YouTube subtitles. Simply input a YouTube video link and a question you want answered in regards to the video. (The video must have subtitles turned on)",
-        "imagePath": "assets/chunkymonkey.avif",
-        "url": "https://github.com/Lambent7/ChunkyMonkey",
-        "hasGithubRepo": true,
-        "isFavorite": false,
-        "datePosted": "2026-05-29T00:00:00.000Z",
-        "filters": [
-            "NLP",
-            "AI"
-        ]
-    },
-    {
-        "id": "fauxnite_mono",
-        "title": "Fauxnite Mono",
-        "description": "A custom mono-spaced font family designed in Inkscape.",
-        "imagePath": "assets/fauxnite_mono.avif",
-        "videoPath": "assets/fauxnite_mono.av1",
-        "url": "/blog/fauxnite_mono",
-        "hasGithubRepo": false,
-        "isFavorite": false,
-        "datePosted": "2026-05-29T02:53:13.651Z",
-        "filters": [
-            "UI/UX",
-            "SVG"
-        ]
-    },
-    {
-        "id": "black_crown",
-        "title": "Black Crown Game Console",
-        "description": "Custom gaming console powered by the BC-250 (PS5) APU Board and CachyOS (Arch Linux Fork).",
-        "imagePath": "assets/blackcrown.avif",
-        "videoPath": "assets/blackcrown.av1",
-        "url": "/blog/black_crown",
-        "hasGithubRepo": false,
-        "isFavorite": true,
-        "datePosted": "2026-03-31T00:00:00.000Z",
-        "filters": [
-            "Linux",
-            "3D Model",
-            "UI/UX",
-            "Hardware"
-        ]
-    },
-    {
-        "id": "emotion_game",
-        "title": "Emotion Game",
-        "description": "A speedrunning game to type sentences that have a sense of the target emotion. An emotion classifying AI decides if you win or lose!",
-        "imagePath": "assets/emotion_game.avif",
-        "videoPath": "assets/emotion_game.av1",
-        "url": "https://github.com/Lambent7/Emotion-Game",
-        "hasGithubRepo": true,
-        "isFavorite": false,
-        "datePosted": "2026-03-31T00:00:00.000Z",
-        "filters": [
-            "NLP",
-            "AI",
-            "UI/UX"
-        ]
-    },
-    {
-        "id": "steam_review_classifier",
-        "title": "Steam Review Classifier",
-        "description": "Natural language classifier trained on a subset of the SirSkandrani/steam_reviews_clean dataset. Classifies reviews as positive or negative",
-        "imagePath": "assets/steam_review_classifier.avif",
-        "videoPath": "assets/steam_review_classifier.av1",
-        "url": "https://github.com/Lambent7/SteamReviewClassifier",
-        "hasGithubRepo": true,
-        "isFavorite": false,
-        "datePosted": "2026-03-31T00:00:00.000Z",
-        "filters": [
-            "NLP",
-            "AI"
-        ]
-    }
+  {
+    "id": "signcontrol",
+    "title": "SignControl",
+    "description": "Controlling robots using hand gestures",
+    "imagePath": "assets/signcontrol.avif",
+    "videoPath": "assets/signcontrol.av1",
+    "url": "https://github.com/SignControl/SignControl",
+    "hasGithubRepo": true,
+    "isFavorite": true,
+    "datePosted": "2026-06-15T00:00:00.000Z",
+    "filters": [
+      "AI",
+      "Vision"
+    ]
+  },
+  {
+    "id": "wikirag",
+    "title": "WikiRAG",
+    "description": "A chatbot that generates information about retrieved Wikipedia articles using RAG (Retrieval Augmented Generation)",
+    "imagePath": "assets/wikirag.avif",
+    "url": "https://github.com/Lambent7/WikiRAG",
+    "hasGithubRepo": true,
+    "isFavorite": true,
+    "datePosted": "2026-06-02T00:00:00.000Z",
+    "filters": [
+      "NLP",
+      "AI"
+    ]
+  },
+  {
+    "id": "portfolio_icons",
+    "title": "Portfolio Icons",
+    "description": "Custom made SVG icons for use on this portfolio website created with Inkscape.",
+    "imagePath": "assets/portfolio_icons.avif",
+    "videoPath": "assets/portfolio_icons.av1",
+    "url": "/blog/portfolio_icons",
+    "hasGithubRepo": false,
+    "isFavorite": true,
+    "datePosted": "2026-05-29T00:00:00.000Z",
+    "filters": [
+      "UI/UX",
+      "SVG"
+    ]
+  },
+  {
+    "id": "chunkymonkey",
+    "title": "ChunkyMonkey",
+    "description": "A retrieval augmented generation model using YouTube subtitles. Simply input a YouTube video link and a question you want answered in regards to the video. (The video must have subtitles turned on)",
+    "imagePath": "assets/chunkymonkey.avif",
+    "url": "https://github.com/Lambent7/ChunkyMonkey",
+    "hasGithubRepo": true,
+    "isFavorite": false,
+    "datePosted": "2026-05-29T00:00:00.000Z",
+    "filters": [
+      "NLP",
+      "AI"
+    ]
+  },
+  {
+    "id": "fauxnite_mono",
+    "title": "Fauxnite Mono",
+    "description": "A custom mono-spaced font family designed in Inkscape.",
+    "imagePath": "assets/fauxnite_mono.avif",
+    "videoPath": "assets/fauxnite_mono.av1",
+    "url": "/blog/fauxnite_mono",
+    "hasGithubRepo": false,
+    "isFavorite": false,
+    "datePosted": "2026-05-29T02:53:13.651Z",
+    "filters": [
+      "UI/UX",
+      "SVG"
+    ]
+  },
+  {
+    "id": "black_crown",
+    "title": "Black Crown Game Console",
+    "description": "Custom gaming console powered by the BC-250 (PS5) APU Board and CachyOS (Arch Linux Fork).",
+    "imagePath": "assets/blackcrown.avif",
+    "videoPath": "assets/blackcrown.av1",
+    "url": "/blog/black_crown",
+    "hasGithubRepo": false,
+    "isFavorite": true,
+    "datePosted": "2026-03-31T00:00:00.000Z",
+    "filters": [
+      "Linux",
+      "3D Model",
+      "UI/UX",
+      "Hardware"
+    ]
+  },
+  {
+    "id": "emotion_game",
+    "title": "Emotion Game",
+    "description": "A speedrunning game to type sentences that have a sense of the target emotion. An emotion classifying AI decides if you win or lose!",
+    "imagePath": "assets/emotion_game.avif",
+    "videoPath": "assets/emotion_game.av1",
+    "url": "https://github.com/Lambent7/Emotion-Game",
+    "hasGithubRepo": true,
+    "isFavorite": false,
+    "datePosted": "2026-03-31T00:00:00.000Z",
+    "filters": [
+      "NLP",
+      "AI",
+      "UI/UX"
+    ]
+  },
+  {
+    "id": "steam_review_classifier",
+    "title": "Steam Review Classifier",
+    "description": "Natural language classifier trained on a subset of the SirSkandrani/steam_reviews_clean dataset. Classifies reviews as positive or negative",
+    "imagePath": "assets/steam_review_classifier.avif",
+    "videoPath": "assets/steam_review_classifier.av1",
+    "url": "https://github.com/Lambent7/SteamReviewClassifier",
+    "hasGithubRepo": true,
+    "isFavorite": false,
+    "datePosted": "2026-03-31T00:00:00.000Z",
+    "filters": [
+      "NLP",
+      "AI"
+    ]
+  }
 ]
