@@ -52,7 +52,7 @@ export default function Home() {
     {
       icon: <img src="/assets/computer.svg" alt="GitHub" className="w-[80%] h-[80%] drop-shadow-[0_0_15px_rgba(0,0,0,0.8)] drop-shadow-[0_8px_10px_rgba(0,0,0,0.9)]" />,
       label: 'GitHub',
-      onClick: () => window.open('https://github.com/Lambent7', '_blank'),
+      onClick: () => window.open('https://github.com/graham2md', '_blank'),
     },
   ];
 
